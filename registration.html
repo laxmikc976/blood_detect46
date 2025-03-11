@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Registration</title>
+  <link rel="stylesheet" href="registration.css"> <!-- Link to external CSS -->
+</head>
+<body>
+
+  <!-- Registration Form -->
+  <div class="registration-container">
+    <h2>User Registration</h2>
+
+    <form id="registrationForm" onsubmit="return validateForm(event)">
+      <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password:</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" required>
+      </div>
+
+      <button type="submit">Register</button>
+    </form>
+
+    <!-- Error and Success Messages -->
+    <div id="errorMessage" class="error-message" style="display:none;"></div>
+
+    <!-- Link to the Main Page (e.g., login or home page) -->
+    <p>Already have an account? <a href="HTML.html">Go to Main Page</a></p> <!-- Link to main page or login page -->
+  </div>
+
+  <!-- Success Message Popup -->
+  <div id="successPopup" class="popup">
+    <div class="popup-content">
+      <span class="close-btn" onclick="closePopup()">×</span>
+      <h2>Registration Successful!</h2>
+      <p>Your account has been successfully created.</p>
+    </div>
+  </div>
+
+  <script src="registration.js"></script> <!-- Link to external JS -->
+
+</body>
+</html>
