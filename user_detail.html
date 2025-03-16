@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Group Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h2 {
+            text-align: center;
+        }
+        .container {
+            margin-bottom: 30px;
+        }
+        .input-group {
+            margin: 10px 0;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .input-group input, .input-group select {
+            padding: 8px;
+            width: 100%;
+            max-width: 300px;
+            box-sizing: border-box;
+        }
+        .button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e7f4e7;
+        }
+        .result ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .result li {
+            background-color: #fff;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .success-message {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            border-radius: 4px;
+            display: none;
+        }
+        .call-button {
+            margin-top: 10px;
+            padding: 8px 12px;
+            background-color: #008CBA;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .call-button:hover {
+            background-color: #007B9A;
+        }
+    </style>
+</head>
+<body>
+    <h2>Blood Group Information System</h2>
+
+    <!-- Add User Form -->
+    <div class="container">
+        <h3>Add User Details</h3>
+        <div class="input-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" placeholder="Enter your name">
+        </div>
+        <div class="input-group">
+            <label for="age">Age:</label>
+            <input type="number" id="age" placeholder="Enter your age">
+        </div>
+        <div class="input-group">
+            <label for="bloodGroup">Blood Group:</label>
+            <select id="bloodGroup">
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="O+">O+</option>
+                <option value="O-">O-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label for="aadhar">Aadhar Card Number:</label>
+            <input type="text" id="aadhar" placeholder="Enter your Aadhar card number">
+        </div>
+        <div class="input-group">
+            <label for="address">Address:</label>
+            <input type="text" id="address" placeholder="Enter your address">
+        </div>
+        <div class="input-group">
+            <label for="phone">Phone Number:</label>
+            <input type="text" id="phone" placeholder="Enter your phone number">
+        </div>
+        <button class="button" onclick="addUser()">Add User</button>
+        
+        <!-- Success Message -->
+        <div class="success-message" id="successMessage">User added successfully!</div>
+    </div>
+
+    <!-- Search Form -->
+    <div class="container">
+        <h3>Search Users by Blood Group and Address</h3>
+        <div class="input-group">
+            <label for="searchBloodGroup">Blood Group:</label>
+            <select id="searchBloodGroup">
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="O+">O+</option>
+                <option value="O-">O-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label for="searchAddress">Address:</label>
+            <input type="text" id="searchAddress" placeholder="Enter address to search">
+        </div>
+        <button class="button" onclick="searchUsers()">Search</button>
+    </div>
+
+    <!-- Result Display -->
+    <div class="result" id="resultContainer" style="display: none;">
+        <h3>Matching Users:</h3>
+        <ul id="resultList"></ul>
+    </div>
+
+    <!-- Include call_java.js -->
+    <script src="call_java.js"></script>
+
+    <script>
+        // Array to store user details
+        const users = [];
+
+        // Function to add a user
+        function addUser() {
+            const name = document.getElementById('name').value;
+            const age = document.getElementById('age').value;
+            const bloodGroup = document.getElementById('bloodGroup').value;
+            const aadhar = document.getElementById('aadhar').value;
+            const address = document.getElementById('address').value;
+            const phone = document.getElementById('phone').value;
+
+            if (name && age && bloodGroup && aadhar && address && phone) {
+                // Add user to the array
+                users.push({ name, age, bloodGroup, aadhar, address, phone });
+
+                // Clear input fields
+                document.getElementById('name').value = '';
+                document.getElementById('age').value = '';
+                document.getElementById('bloodGroup').value = 'A+'; 
+                document.getElementById('aadhar').value = '';
+                document.getElementById('address').value = '';
+                document.getElementById('phone').value = '';
+
+                // Show success message
+                const successMessage = document.getElementById('successMessage');
+                successMessage.style.display = 'block';
+
+                // Optionally, hide the success message after 3 seconds
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                }, 3000);
+            } else {
+                alert('Please fill in all fields.');
+            }
+        }
+
+        // Function to search for users by blood group and address
+        function searchUsers() {
+            const searchBloodGroup = document.getElementById('searchBloodGroup').value;
+            const searchAddress = document.getElementById('searchAddress').value.toLowerCase();
+
+            // Filter users by the selected blood group and address
+            const matchingUsers = users.filter(user => 
+                user.bloodGroup === searchBloodGroup && user.address.toLowerCase().includes(searchAddress)
+            );
+
+            // Display the result
+            const resultContainer = document.getElementById('resultContainer');
+            const resultList = document.getElementById('resultList');
+
+            resultList.innerHTML = ''; // Clear previous results
+
+            if (matchingUsers.length > 0) {
+                matchingUsers.forEach(user => {
+                    const listItem = document.createElement('li');
+                    listItem.innerHTML = 
+                        `<strong>Name:</strong> ${user.name} <br>
+                        <strong>Age:</strong> ${user.age} <br>
+                        <strong>Aadhar:</strong> ${user.aadhar} <br>
+                        <strong>Address:</strong> ${user.address} <br>
+                        <strong>Phone:</strong> ${user.phone}`;
+
+                    // Add a call button for each user
+                    const callButton = document.createElement('button');
+                    callButton.classList.add('call-button');
+                    callButton.textContent = 'Call';
+
+                    // Create an <a> tag for the call functionality
+                    const callLink = document.createElement('a');
+                    callLink.href = `tel:${user.phone}`;
+                    callLink.style.display = 'block'; // Make the call button clickable
+                    callLink.appendChild(callButton);
+
+                    listItem.appendChild(callLink);
+                    resultList.appendChild(listItem);
+                });
+                resultContainer.style.display = 'block'; // Show results section
+            } else {
+                resultContainer.style.display = 'none'; // Hide results section if no matches
+                alert('No users found with this blood group and address.');
+            }
+        }
+    </script>
+</body>
+</html>
